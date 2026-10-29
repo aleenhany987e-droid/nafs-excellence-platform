@@ -86,7 +86,8 @@ footer{text-align:center;padding:25px;background:var(--navy);color:#e7d4af;margi
         <button onclick="chooseSection('التطوير المهني')">التطوير المهني</button>
       </div>
     </div>
-<button id="adminAddButton" hidden onclick="showPage('add')">+ إضافة إنجاز</button> <button id="adminLibraryButton" hidden onclick="showPage('library')">مكتبة الإنجاز</button>    <button id="adminLogoutButton" hidden class="btn" onclick="supabaseClient.auth.signOut().then(({error}) => error ? alert('تعذر تسجيل الخروج') : location.reload())">تسجيل الخروج</button>
+<button id="adminLoginButton" onclick="document.getElementById('cloudLoginPanel').style.display='flex'">تسجيل دخول الإدارة</button>
+    <button id="adminAddButton" hidden onclick="showPage('add')">+ إضافة إنجاز</button> <button id="adminLibraryButton" hidden onclick="showPage('library')">مكتبة الإنجاز</button>    <button id="adminLogoutButton" hidden class="btn" onclick="supabaseClient.auth.signOut().then(({error}) => error ? alert('تعذر تسجيل الخروج') : location.reload())">تسجيل الخروج</button>
 </nav></header>
 
 <main>
@@ -303,6 +304,7 @@ updateStats();
 let session = null;
 window.isAdmin = false;
   const panel = document.createElement('div');
+  panel.id = 'cloudLoginPanel';
   panel.style.cssText =
     'display:none;position:fixed;inset:0;z-index:99999;' +
     'background:#0008;align-items:center;justify-content:center;padding:20px';
@@ -348,6 +350,8 @@ adminButtonIds.forEach(id => {
   const button = document.getElementById(id);
   if (button) button.hidden = !session;
 });
+const loginButton = document.getElementById('adminLoginButton');
+if (loginButton) loginButton.hidden = !!session;
 
 if (!session) {
   panel.style.display = 'none';
